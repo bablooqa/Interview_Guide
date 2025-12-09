@@ -2,7 +2,7 @@
 
 > **Created for**: Interview Preparation, Quick Revision, and Deep Understanding  
 > **Last Updated**: December 2025  
-> **Author's Note**: This guide covers everything from basics to advanced ES6+ features with real-world examples
+> **Author's Note**: [Babloo](#https://github.com/bablooqa) | This guide covers everything from basics to advanced ES6+ features with real-world examples
 
 ---
 
