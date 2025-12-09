@@ -1427,6 +1427,1043 @@ let userAge = 25; // ✅ Good
 **Q6: Why is var considered bad practice?**  
 **A**: var can be redeclared (causing bugs), is function-scoped (not block-scoped), has confusing hoisting behavior, and can pollute global scope. let and const solve these problems.
 
----
+## 9. Operators and Expressions
 
-I'll continue with the remaining topics. Would you like me to continue with the rest of the document?
+### Overview
+
+Operators are symbols that tell JavaScript to perform specific actions on values (operands), such as addition, comparison, or logical evaluation.
+An expression is any valid unit of code that resolves to a value (e.g., `2 + 3`, `a > b`, `user.isActive && user.age > 18`).
+
+***
+
+### Arithmetic Operators
+
+**Operators:** `+`, `-`, `*`, `/`, `%`, `**`
+
+```js
+let a = 10;
+let b = 3;
+
+console.log(a + b);   // 13
+console.log(a - b);   // 7
+console.log(a * b);   // 30
+console.log(a / b);   // 3.333...
+console.log(a % b);   // 1  (remainder)
+console.log(a ** 2);  // 100 (exponentiation)
+```
+
+**Use cases**
+
+- Calculations in dashboards, billing, carts (subtotal, tax, total).
+- Pagination logic (page size, offsets, remainder).
+- Game logic (scores, health, positions).
+
+***
+
+### Assignment Operators
+
+**Operators:** `=`, `+=`, `-=`, `*=`, `/=`, `%=`
+
+```js
+let x = 10;
+
+x += 5;   // x = x + 5 → 15
+x -= 3;   // x = x - 3 → 12
+x *= 2;   // x = x * 2 → 24
+x /= 4;   // x = x / 4 → 6
+x %= 5;   // x = x % 5 → 1
+```
+
+**Use cases**
+
+- Updating counters (likes, views, retries).
+- Accumulating totals in loops.
+- Updating state in games or animations.
+
+***
+
+### Comparison Operators
+
+**Operators:** `==`, `===`, `!=`, `!==`, `<`, `>`, `<=`, `>=`
+
+```js
+console.log(5 == '5');    // true  (only value compared)
+console.log(5 === '5');   // false (value + type compared)
+
+console.log(10 != '10');  // false
+console.log(10 !== '10'); // true
+
+console.log(3 < 5);       // true
+console.log(10 >= 10);    // true
+```
+
+**Key point:** Always prefer `===` and `!==` to avoid unexpected type coercion.
+
+**Use cases**
+
+- Conditional logic in `if`, `while`, `for`.
+- Validating form inputs (age > 18, password length >= 8).
+- Search and filter operations (e.g., `user.role === 'admin'`).
+
+***
+
+### Logical Operators
+
+**Operators:** `&&` (AND), `||` (OR), `!` (NOT)
+
+```js
+const isLoggedIn = true;
+const isAdmin = false;
+
+console.log(isLoggedIn && isAdmin); // false
+console.log(isLoggedIn || isAdmin); // true
+console.log(!isAdmin);              // true
+```
+
+**Short-circuit behavior**
+
+```js
+// AND: stops at first falsy
+false && console.log('Will not run');
+
+// OR: stops at first truthy
+true || console.log('Will not run');
+```
+
+**Use cases**
+
+- Complex conditions: `if (isLoggedIn && user.isVerified && user.role === 'admin')`.
+- Providing fallbacks: `const title = user.title || 'Guest';`.
+- Safely accessing nested props (older style before optional chaining).
+
+***
+
+### Increment and Decrement
+
+**Operators:** `++`, `--` (prefix and postfix)
+
+```js
+let n = 5;
+
+console.log(n++); // 5 (returns old value, then n = 6)
+console.log(n);   // 6
+
+console.log(++n); // 7 (increments, then returns 7)
+
+// Similarly for --
+let m = 3;
+console.log(m--); // 3 (then 2)
+console.log(--m); // 1
+```
+
+**Use cases**
+
+- Loop counters.
+- Stepping through arrays / sequences.
+- Simple counters for stats, attempts, retries.
+
+***
+
+### String Concatenation with +
+
+```js
+const firstName = 'John';
+const lastName = 'Doe';
+
+const fullName = firstName + ' ' + lastName;     // 'John Doe'
+const message = 'Total: ' + (10 + 20);           // 'Total: 30'
+
+// Beware: number + string → string
+console.log(1 + '2');    // '12'
+console.log('1' + 2 + 3); // '123'
+console.log(1 + 2 + '3'); // '33'
+```
+
+**Use cases**
+
+- Quick string building (though template literals are preferred).
+- Logging / debugging messages.
+
+***
+
+### Interview-style Questions (Operators)
+
+1. Why is `===` preferred over `==` in JavaScript?
+2. What is the output of `console.log(0 == false, 0 === false)` and why?
+3. Explain the difference between prefix and postfix `++`.
+4. How does short-circuiting work with `&&` and `||`? Show a real example.
+5. What will this print and why: `console.log(1 + '2' + 3)` and `console.log(1 + 2 + '3')`?
+6. What is the difference between `a += b` and `a = a + b`? Are they always identical?
+
+***
+
+## 10. Type Conversion
+
+### Explicit Type Conversion
+
+**To string**
+
+```js
+String(123);        // '123'
+(123).toString();   // '123'
+String(true);       // 'true'
+String(null);       // 'null'
+```
+
+**To number**
+
+```js
+Number('42');       // 42
+Number('42.5');     // 42.5
+Number(true);       // 1
+Number(false);      // 0
+Number('abc');      // NaN
+
+parseInt('42px');   // 42
+parseFloat('3.14'); // 3.14
++'10';              // 10 (unary plus)
+```
+
+**To boolean**
+
+```js
+Boolean(0);         // false
+Boolean('');        // false
+Boolean(null);      // false
+Boolean(undefined); // false
+Boolean(NaN);       // false
+
+Boolean('hello');   // true
+Boolean(123);       // true
+Boolean([]);        // true
+Boolean({});        // true
+```
+
+
+***
+
+### Implicit Type Conversion (Coercion)
+
+```js
+'5' * 2;        // 10   ('5' converted to number)
+'5' - 2;        // 3
+'5' + 2;        // '52' (number converted to string)
+
+1 == '1';       // true
+0 == false;     // true
+'' == false;    // true
+null == undefined; // true
+```
+
+**Avoid relying on coercion; use explicit conversion + `===`.**
+
+***
+
+### Interview-style Questions (Type Conversion)
+
+1. What is type coercion in JavaScript?
+2. What is the difference between `Number('123')` and `parseInt('123abc')`?
+3. Which values are falsy in JavaScript?
+4. Why does `[] == false` evaluate to true?
+5. How would you safely convert user input from a text field to a number?
+
+***
+
+## 11. Control Statements
+
+### if, else if, else
+
+```js
+const age = 20;
+
+if (age >= 18) {
+  console.log('Adult');
+} else {
+  console.log('Minor');
+}
+
+if (score >= 90) {
+  grade = 'A';
+} else if (score >= 75) {
+  grade = 'B';
+} else {
+  grade = 'C';
+}
+```
+
+**Use cases**
+
+- Form validation (password length, required fields).
+- Role-based UI (admin vs user).
+- Handling different ranges (pricing tiers, grades).
+
+***
+
+### Nested if
+
+```js
+if (user) {
+  if (user.isActive) {
+    console.log('Active user');
+  } else {
+    console.log('Inactive user');
+  }
+} else {
+  console.log('No user found');
+}
+```
+
+
+***
+
+### switch
+
+```js
+const role = 'admin';
+
+switch (role) {
+  case 'admin':
+    console.log('Full access');
+    break;
+  case 'editor':
+    console.log('Can edit content');
+    break;
+  case 'viewer':
+    console.log('Read-only access');
+    break;
+  default:
+    console.log('No role assigned');
+}
+```
+
+**Use cases**
+
+- Menu / navigation handling.
+- Status handling (PENDING, APPROVED, REJECTED).
+- Mapping enums to actions.
+
+***
+
+### Ternary Operator
+
+```js
+const age = 18;
+const canVote = age >= 18 ? 'Yes' : 'No';
+
+const label = isLoggedIn ? 'Logout' : 'Login';
+```
+
+**Use cases**
+
+- Simple inline conditions in JSX/templating.
+- Short conditional assignments.
+
+***
+
+### Interview-style Questions (Control Flow)
+
+1. When would you use `switch` instead of multiple `if/else`?
+2. What happens if you forget `break` in a `switch` case?
+3. When is ternary operator a bad idea (readability)?
+4. How would you refactor a deeply nested `if/else` chain?
+
+***
+
+## 12. Loops
+
+### for loop
+
+```js
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+```
+
+**Use cases**
+
+- Iterating over arrays (indexes required).
+- Fixed count iterations (e.g., retry N times).
+
+***
+
+### while loop
+
+```js
+let i = 0;
+
+while (i < 5) {
+  console.log(i);
+  i++;
+}
+```
+
+**Use cases**
+
+- Unknown iteration count in advance (read until condition).
+
+***
+
+### do...while loop
+
+```js
+let i = 0;
+
+do {
+  console.log(i);
+  i++;
+} while (i < 5);
+```
+
+**Use cases**
+
+- Run at least once (menus, first prompt, first API call).
+
+***
+
+### break and continue
+
+```js
+// break
+for (let i = 0; i < 10; i++) {
+  if (i === 5) break;
+  console.log(i); // 0..4
+}
+
+// continue
+for (let i = 0; i < 5; i++) {
+  if (i === 2) continue;
+  console.log(i); // 0,1,3,4
+}
+```
+
+
+***
+
+### Nested loops
+
+```js
+for (let i = 1; i <= 3; i++) {
+  for (let j = 1; j <= 3; j++) {
+    console.log(`i=${i}, j=${j}`);
+  }
+}
+```
+
+**Use cases**
+
+- Matrices, tables, calendars.
+- Comparing all pairs in an array (O(n²) logic).
+
+***
+
+### Interview-style Questions (Loops)
+
+1. When would you choose `while` over `for`?
+2. What is an infinite loop and how to avoid it?
+3. Why are nested loops dangerous in large datasets?
+4. How could you break out of nested loops cleanly?
+
+## 13. Functions
+
+### What is a Function?
+
+A function is a reusable block of code designed to perform a specific task.
+Functions help avoid repetition, improve readability, and make code modular.
+
+***
+
+### Function Declaration
+
+```js
+function add(a, b) {
+  return a + b;
+}
+
+const result = add(2, 3); // 5
+```
+
+- Hoisted (you can call it before it is defined in the file).
+
+***
+
+### Function Expression
+
+```js
+const multiply = function (a, b) {
+  return a * b;
+};
+
+console.log(multiply(3, 4)); // 12
+```
+
+- Not hoisted in the same way (cannot use before assignment).
+
+***
+
+### Arrow Functions (ES6)
+
+```js
+// Basic
+const sub = (a, b) => a - b;
+
+// With body
+const greet = (name) => {
+  return `Hello, ${name}`;
+};
+
+// Single parameter (parentheses optional)
+const square = n => n * n;
+```
+
+- Do not have their own `this`, `arguments`, or `prototype`.
+- Great for callbacks and functional style.
+
+***
+
+### Parameters, Arguments, Default Parameters
+
+```js
+function greetUser(name = 'Guest') {
+  console.log(`Hello, ${name}`);
+}
+
+greetUser('John'); // Hello, John
+greetUser();       // Hello, Guest
+```
+
+
+***
+
+### Function Scope \& Hoisting
+
+```js
+function demo() {
+  var x = 10;
+  let y = 20;
+  console.log(x, y);
+}
+// x and y not accessible outside demo()
+
+console.log(sum(2, 3)); // 5
+
+function sum(a, b) {
+  return a + b;
+}
+```
+
+
+***
+
+### Interview Questions (Functions)
+
+1. Difference between function declarations and function expressions?
+2. How does hoisting work with functions?
+3. What is the difference between regular functions and arrow functions for `this`?
+4. What are default parameters and why are they useful?
+5. What is a higher-order function?
+
+***
+
+## 14. Arrays
+
+### Creating Arrays
+
+```js
+const numbers = [1, 2, 3, 4];
+const fruits = new Array('Apple', 'Banana', 'Orange');
+```
+
+
+***
+
+### Accessing \& Modifying Elements
+
+```js
+console.log(fruits[0]); // 'Apple'
+fruits[1] = 'Mango';
+```
+
+
+***
+
+### Array Length
+
+```js
+console.log(fruits.length);
+```
+
+
+***
+
+### push, pop, unshift, shift
+
+```js
+const arr = [1, 2, 3];
+
+arr.push(4);   // [1,2,3,4]
+arr.pop();     // [1,2,3]
+
+arr.unshift(0); // [0,1,2,3]
+arr.shift();    // [1,2,3]
+```
+
+
+***
+
+### indexOf, includes
+
+```js
+const colors = ['red', 'green', 'blue'];
+
+colors.indexOf('green'); // 1
+colors.includes('black'); // false
+```
+
+
+***
+
+### concat, slice, splice, join
+
+```js
+const a = [1, 2];
+const b = [3, 4];
+
+const merged = a.concat(b); // [1,2,3,4]
+
+const part = merged.slice(1, 3); // [2,3] (does not mutate)
+
+const removed = merged.splice(1, 2); // removes 2 items from index 1
+
+const text = ['Hello', 'World'].join(' '); // 'Hello World'
+```
+
+
+***
+
+### Iteration: for, for...of
+
+```js
+const nums = [10, 20, 30];
+
+// Classic for
+for (let i = 0; i < nums.length; i++) {
+  console.log(nums[i]);
+}
+
+// for...of
+for (const n of nums) {
+  console.log(n);
+}
+```
+
+
+***
+
+### Array of Objects
+
+```js
+const users = [
+  { id: 1, name: 'John', active: true },
+  { id: 2, name: 'Alice', active: false }
+];
+```
+
+
+***
+
+### Interview Questions (Arrays)
+
+1. Difference between `slice` and `splice`?
+2. How to check if a variable is an array? (`Array.isArray`)
+3. How would you remove the last element of an array?
+4. How to merge two arrays immutably?
+
+***
+
+## 15. Powerful Array Functions
+
+### map
+
+Transforms each element and returns a new array.
+
+```js
+const nums = [1, 2, 3];
+
+const doubled = nums.map(n => n * 2); // [2,4,6]
+```
+
+
+***
+
+### filter
+
+Keeps elements that satisfy a condition.
+
+```js
+const users = [
+  { name: 'John', active: true },
+  { name: 'Alice', active: false }
+];
+
+const activeUsers = users.filter(u => u.active);
+```
+
+
+***
+
+### reduce
+
+Reduces array to a single value.
+
+```js
+const nums = [1, 2, 3, 4];
+
+const sum = nums.reduce((acc, n) => acc + n, 0); // 10
+```
+
+
+***
+
+### sort
+
+Sorts array (mutates original).
+
+```js
+const nums = [10, 2, 5, 1];
+
+nums.sort((a, b) => a - b); // [1,2,5,10]
+```
+
+
+***
+
+### Interview Questions (Array Methods)
+
+1. When to use `map` vs `forEach`?
+2. How does `reduce` work (explain accumulator \& initial value)?
+3. Why is `sort` tricky with numbers in JS?
+4. Are `map`, `filter`, `reduce` immutable?
+
+***
+
+## 16. Objects in JavaScript
+
+### Creating Objects
+
+```js
+const user = {
+  name: 'John',
+  age: 30,
+  isAdmin: true
+};
+```
+
+
+***
+
+### Accessing Properties
+
+```js
+console.log(user.name);      // dot notation
+console.log(user['age']);    // bracket notation
+```
+
+
+***
+
+### Updating, Adding, Deleting
+
+```js
+user.age = 31;
+user.email = 'john@example.com';
+
+delete user.isAdmin;
+```
+
+
+***
+
+### Methods \& this
+
+```js
+const person = {
+  name: 'Alice',
+  greet() {
+    console.log(`Hi, I'm ${this.name}`);
+  }
+};
+```
+
+
+***
+
+### Nested Objects, for...in
+
+```js
+const company = {
+  name: 'ABC',
+  address: {
+    city: 'Delhi',
+    country: 'India'
+  }
+};
+
+for (const key in company) {
+  console.log(key, company[key]);
+}
+```
+
+
+***
+
+### Object.keys, values, entries, assign, spread
+
+```js
+Object.keys(user);    // ['name', 'age', 'email']
+Object.values(user);  // ['John', 31, 'john@example.com']
+Object.entries(user); // [['name','John'],...]
+
+const target = { a: 1 };
+const source = { b: 2 };
+Object.assign(target, source); // {a:1,b:2}
+
+const clone = { ...user };
+```
+
+
+***
+
+### Array of Objects
+
+```js
+const products = [
+  { id: 1, name: 'Laptop', price: 50000 },
+  { id: 2, name: 'Phone', price: 20000 }
+];
+```
+
+
+***
+
+### Interview Questions (Objects)
+
+1. Difference between dot and bracket notation?
+2. How to clone an object (shallow vs deep copy)?
+3. What does `this` refer to inside an object method?
+4. Difference between `Object.assign` and spread (`...`)?
+
+***
+
+## 17. DOM Manipulation
+
+### What is DOM?
+
+The Document Object Model (DOM) is a tree representation of the HTML document that JavaScript can read and modify.
+
+***
+
+### Selecting Elements
+
+```js
+document.getElementById('title');
+document.getElementsByClassName('item');
+document.getElementsByTagName('p');
+
+document.querySelector('#title');       // CSS selector
+document.querySelectorAll('.item');     // NodeList
+```
+
+
+***
+
+### Changing Content and Attributes
+
+```js
+const el = document.getElementById('title');
+
+el.innerHTML = '<span>Hello</span>';
+el.textContent = 'Plain Text';
+
+el.setAttribute('data-id', '123');
+const id = el.getAttribute('data-id');
+```
+
+
+***
+
+### Changing Styles and Classes
+
+```js
+el.style.color = 'red';
+el.classList.add('active');
+el.classList.remove('hidden');
+el.classList.toggle('dark-mode');
+```
+
+
+***
+
+### Creating, Appending, Removing
+
+```js
+const li = document.createElement('li');
+li.textContent = 'New item';
+
+document.getElementById('list').appendChild(li);
+
+li.remove();
+```
+
+
+***
+
+### Events and addEventListener
+
+```js
+const btn = document.getElementById('btn');
+
+btn.addEventListener('click', () => {
+  console.log('Button clicked');
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    console.log('Enter pressed');
+  }
+});
+```
+
+
+***
+
+### Interview Questions (DOM)
+
+1. Difference between `innerHTML` and `textContent`?
+2. How to efficiently handle events for many list items (event delegation)?
+3. What is the DOM tree?
+4. How do you dynamically create and insert a new element?
+
+***
+
+## 18. ES6 Features
+
+### let and const
+
+Block-scoped variable declarations that replace `var` in modern code.
+
+***
+
+### Template Literals
+
+```js
+const name = 'John';
+const message = `Hello, ${name}! Welcome.`;
+```
+
+
+***
+
+### Destructuring
+
+```js
+const user = { name: 'Alice', age: 25 };
+
+const { name, age } = user;
+
+const arr = [10, 20, 30];
+const [first, second] = arr;
+```
+
+
+***
+
+### Spread and Rest
+
+```js
+// Spread
+const a = [1, 2];
+const b = [3, 4];
+const merged = [...a, ...b];
+
+// Rest
+function sum(...nums) {
+  return nums.reduce((acc, n) => acc + n, 0);
+}
+```
+
+
+***
+
+### for...of
+
+```js
+for (const n of [1, 2, 3]) {
+  console.log(n);
+}
+```
+
+
+***
+
+### Classes
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  greet() {
+    console.log(`Hi, I'm ${this.name}`);
+  }
+}
+
+const p = new Person('John');
+```
+
+
+***
+
+### Promises
+
+```js
+const fetchData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve('Done'), 1000);
+  });
+};
+
+fetchData()
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+```
+
+
+***
+
+### Async/Await
+
+```js
+async function loadUser() {
+  try {
+    const res = await fetch('/api/user');
+    const user = await res.json();
+    console.log(user);
+  } catch (e) {
+    console.error(e);
+  }
+}
+```
+
+
+***
+
+### Interview Questions (ES6)
+
+1. Difference between `var`, `let`, and `const`?
+2. What problems do template literals solve?
+3. Explain destructuring with a real example.
+4. What is a Promise and what problem does it solve?
+5. Difference between Promises and async/await?
+
+***
